@@ -148,41 +148,40 @@ Widget buildSearchResultTile(
   final addressWithoutName = address.contains(',')
       ? address.substring(address.indexOf(',') + 1).trim()
       : address;
-  final placeCode = service['place_code']; // Extract place_code from service
+  final placeCode = service['place_code'];
 
-  return Card(
-    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-    child: ListTile(
-      leading: Icon(Icons.place),
-      title: Text(
-        name,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-      ),
-      subtitle: Text(
-        addressWithoutName,
-        style: TextStyle(
-          fontSize: 14,
-        ),
-      ),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      borderRadius: BorderRadius.circular(20),
       onTap: () {
         if (placeCode != null && apiKey.isNotEmpty) {
-          fetchPlaceDetails(
-              placeCode,
-              apiKey,
-              sessionId,
-              context,
-              currentLatitude,
-              currentLongitude); // Use place_code and sessionId to fetch place details
+          fetchPlaceDetails(placeCode, apiKey, sessionId, context,
+              currentLatitude, currentLongitude);
         } else {
-          // Handle the case where placeCode or apiKey is null
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Invalid place code or API key')),
           );
         }
       },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 2),
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            colors: [Colors.white54, Colors.blueGrey],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: ListTile(
+          leading: Icon(Icons.place),
+          title: Text(name,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          subtitle: Text(addressWithoutName, style: TextStyle(fontSize: 14)),
+        ),
+      ),
     ),
   );
 }

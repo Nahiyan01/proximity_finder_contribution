@@ -77,7 +77,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       validator: validateEmail,
                     ),
                     const SizedBox(height: 25),
-                    MyButton(onTap: resetPassword),
+                    MyButton(
+                      onTap: resetPassword,
+                      label: "Reset",
+                    ),
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => Navigator.pop(context),

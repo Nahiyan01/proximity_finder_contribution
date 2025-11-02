@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class SquareTile extends StatelessWidget {
   final Icon icon;
+
   const SquareTile({
     super.key,
     required this.icon,
@@ -14,7 +15,6 @@ class SquareTile extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[200],
       ),
       child: icon,
     );

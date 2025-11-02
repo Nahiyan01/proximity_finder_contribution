@@ -18,6 +18,8 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: TextInputType.emailAddress,
+      autofillHints: [AutofillHints.email],
       obscureText: obscureText,
       validator: validator,
       decoration: InputDecoration(

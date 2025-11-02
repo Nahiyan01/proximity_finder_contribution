@@ -88,7 +88,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -145,7 +144,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(height: 25),
 
                     // Sign Up Button
-                    MyButton(onTap: signUpUser),
+                    MyButton(
+                      onTap: signUpUser,
+                      label: "Sign Up",
+                    ),
 
                     const SizedBox(height: 30),
 
@@ -159,10 +161,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         GestureDetector(
                           onTap: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(builder: (context) => LoginPage()),
                           ),
                           child: const Text(
-                            "Home now",
+                            "Login now",
                             style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold),

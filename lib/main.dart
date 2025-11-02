@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:proximity_finder/Provider/theme_change.dart';
+import 'package:proximity_finder/pages/home_page.dart';
 import 'package:proximity_finder/pages/login_page.dart';
+import 'package:proximity_finder/pages/splash_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -8,22 +13,28 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  final user = FirebaseAuth.instance.currentUser;
+
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
+    child: MyApp(isLoggedIn: user != null),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
 
-  // This widget is the root of your application.
+  const MyApp({super.key, required this.isLoggedIn});
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Proximity Finder',
-      theme: ThemeData(
-        primaryColor: Colors.blueGrey[100],
-      ),
-      home: LoginPage(),
+      theme: themeProvider.themeData,
+      home: SplashPage(),
     );
   }
 }

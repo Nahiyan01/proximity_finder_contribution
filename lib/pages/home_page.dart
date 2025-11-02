@@ -1,13 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:proximity_finder/pages/login_page.dart';
 import 'package:proximity_finder/pages/services_pages.dart';
 import 'package:proximity_finder/util/section_tile.dart';
+
+import '../Provider/theme_change.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> _logout(BuildContext context) async {
     await _auth.signOut();
     Navigator.pushReplacement(
@@ -18,6 +23,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     final categories = [
       {'title': 'Hospital', 'icon': '🏥'},
       {'title': 'School', 'icon': '🏫'},
@@ -30,7 +37,7 @@ class HomePage extends StatelessWidget {
       {'title': 'Bank', 'icon': '🏦'},
       {'title': 'ATM', 'icon': '🏧'},
       {'title': 'Gas Station', 'icon': '⛽'},
-      {'title': 'Police Station', 'icon': '🚓'},
+      {'title': 'Cop Station', 'icon': '🚓'},
       {'title': 'Fire Station', 'icon': '🚒'},
       {'title': 'Library', 'icon': '📚'},
       {'title': 'Gym', 'icon': '🏋️‍♂️'},
@@ -52,9 +59,7 @@ class HomePage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       drawer: Drawer(
-        backgroundColor: Colors.blueGrey[100],
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -86,6 +91,13 @@ class HomePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             ListTile(
+              title: Text(themeProvider.isLightMode ? "light" : "dark"),
+              onTap: () {
+                themeProvider.toggleTheme();
+              },
+            ),
+            SizedBox(height: 10),
+            ListTile(
               title: Text('logout'),
               onTap: () {
                 _logout(context);
@@ -96,9 +108,28 @@ class HomePage extends StatelessWidget {
       ),
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[400],
-        title: Center(child: Text('proximity finder')),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Center(
+              child: Text('proximity finder'),
+            ),
+            // Switch(
+            //     value: themeProvider.isLightMode,
+            //     onChanged: (value) {
+            //       themeProvider.toggleTheme();
+            //     }),
+            TextButton(
+              onPressed: () {
+                themeProvider.toggleTheme();
+              },
+              child: Text(themeProvider.isLightMode ? "light" : "dark"),
+            )
+          ],
+        ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Center(
             child: Text("What do you want to search for?",

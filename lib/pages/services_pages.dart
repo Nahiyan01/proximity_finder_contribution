@@ -179,6 +179,7 @@ class _ServicesPageState extends State<ServicesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[400],
         title: Text('${widget.category} in your area'),
       ),
       body: Column(
