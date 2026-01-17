@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proximity_finder/Provider/theme_change.dart';
-import 'package:proximity_finder/pages/home_page.dart';
-import 'package:proximity_finder/pages/login_page.dart';
 import 'package:proximity_finder/pages/splash_page.dart';
 import 'firebase_options.dart';
 

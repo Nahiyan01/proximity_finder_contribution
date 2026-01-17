@@ -17,6 +17,78 @@ class _ServicesPageState extends State<ServicesPage> {
       apiKey:
           "bkoi_b1a2920d9f9013418b492dd13482b83e3b70777e024f6724a747a6e5b8a1a0b4");
   List<Map<String, dynamic>> services = [];
+
+  // Fixed starting location for all routes
+  static const double FIXED_START_LAT = 23.9170737;
+  static const double FIXED_START_LNG = 90.2321362;
+
+  void _navigateToRoute(String placeCode) {
+    if (sessionId != null) {
+      fetchPlaceDetails(
+        placeCode,
+        barikoiService.apiKey,
+        sessionId!,
+        context,
+        FIXED_START_LAT,
+        FIXED_START_LNG,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Session not available')),
+      );
+    }
+  }
+
+  Widget buildSearchResultTile(
+      Map<String, dynamic> service,
+      BuildContext context,
+      double currentLatitude,
+      double currentLongitude,
+      String apiKey,
+      String sessionId) {
+    final address = service['address'] ?? 'No address available';
+    final name = address.split(',')[0];
+    final addressWithoutName = address.contains(',')
+        ? address.substring(address.indexOf(',') + 1).trim()
+        : address;
+    final placeCode = service['place_code'];
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          if (placeCode != null && apiKey.isNotEmpty) {
+            _navigateToRoute(placeCode);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Invalid place code or API key')),
+            );
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              colors: [Colors.white54, Colors.blueGrey],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: ListTile(
+            leading: Icon(Icons.place),
+            title: Text(name,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            subtitle: Text(addressWithoutName, style: TextStyle(fontSize: 14)),
+            trailing: Icon(Icons.directions, color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+
   bool isLoading = false;
   String area = '';
   String errorMessage = '';

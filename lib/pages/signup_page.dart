@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:proximity_finder/pages/home_page.dart';
 import 'package:proximity_finder/util/my_button.dart';
 import 'package:proximity_finder/util/my_textfield.dart';
 import 'login_page.dart';
@@ -161,7 +160,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         GestureDetector(
                           onTap: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           ),
                           child: const Text(
                             "Login now",

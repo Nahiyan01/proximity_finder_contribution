@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:proximity_finder/pages/login_page.dart';
 import 'package:proximity_finder/pages/services_pages.dart';
+import 'package:proximity_finder/pages/emergency_ambulance_page.dart';
 import 'package:proximity_finder/util/section_tile.dart';
 
 import '../Provider/theme_change.dart';
@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
       {'title': 'Gas Station', 'icon': '⛽'},
       {'title': 'Cop Station', 'icon': '🚓'},
       {'title': 'Fire Station', 'icon': '🚒'},
+      {'title': 'Ambulance', 'icon': '🚑', 'isEmergency': true},
       {'title': 'Library', 'icon': '📚'},
       {'title': 'Gym', 'icon': '🏋️‍♂️'},
       {'title': 'Cinema', 'icon': '🎬'},
@@ -146,19 +147,33 @@ class HomePage extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final category = categories[index];
+                final title = category['title'] as String;
+                final icon = category['icon'] as String;
+                final isEmergency = (category['isEmergency'] as bool?) ?? false;
+
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ServicesPage(category: category['title']!),
-                      ),
-                    );
+                    // Special handling for ambulance emergency service
+                    if (title == 'Ambulance') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EmergencyAmbulancePage(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ServicesPage(category: title),
+                        ),
+                      );
+                    }
                   },
                   child: SectionTile(
-                    icon: category['icon']!,
-                    title: category['title']!,
+                    icon: icon,
+                    title: title,
+                    isEmergency: isEmergency,
                   ),
                 );
               },

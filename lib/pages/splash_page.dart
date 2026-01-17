@@ -5,7 +5,7 @@ import 'package:proximity_finder/pages/home_page.dart';
 import 'package:proximity_finder/pages/login_page.dart';
 
 class SplashPage extends StatefulWidget {
-  SplashPage({super.key});
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,10 +25,11 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   toggleTheme() async {
-    if (_themeData == lightMode)
+    if (_themeData == lightMode) {
       _themeData = darkMode;
-    else
+    } else {
       _themeData = lightMode;
+    }
     await _saveTheme();
     notifyListeners();
   }
@@ -41,9 +41,10 @@ class ThemeProvider extends ChangeNotifier {
 
   _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool("isLightMode") == true)
+    if (prefs.getBool("isLightMode") == true) {
       themeData = lightMode;
-    else
+    } else {
       themeData = darkMode;
+    }
   }
 }
